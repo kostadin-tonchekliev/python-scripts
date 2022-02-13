@@ -1,52 +1,54 @@
 #!/usr/bin/env python3
 
+import json
 import subprocess
 from simple_term_menu import TerminalMenu
 from pathlib import Path
 
-print("SSH Connection Manager ver 3.0")
+print("SSH Connection Manager ver 4.0")
 
-#Main paths to the connections.txt and labels.txt files used throughout the script
-connections_path = "/Users/kostadintonchekliev/Desktop/scripts/Python/SSH_Connection/connections.txt"
-labels_path = "/Users/kostadintonchekliev/Desktop/scripts/Python/SSH_Connection/labels.txt"
-conn_dict = {}
+#Main path to the json file
+json_path = "/Users/kostadintonchekliev/Desktop/scripts/Python/SSH_Connection/conn_data.json"
 
-#Check if the connections.txt and labels.txt file exist
-if Path(connections_path).exists() == False :
-    print("Connections file is missing, creating it for you")
-    Path(connections_path).touch()
-if Path(labels_path).exists() == False :
-    print("Labels file is missing, creating it for you")
-    Path(labels_path).touch()
+menu_options = []
 
-#Reads files and stores them into lists
-with open(connections_path, 'r') as conns:
-    connections = [x.rstrip() for x in conns.readlines()]
-with open(labels_path, 'r') as lbl:
-    labels = [x.rstrip() for x in lbl.readlines()]
+#Functions
+def return_key(option):
+    return list(conn_dict.keys())[option]
+def return_value(option):
+    return list(conn_dict.values())[option]
+def update_data():
+    with open(json_path, 'w') as json_file:
+        json.dump(conn_dict, json_file)
 
-#Shows options to add or remove connections based on stored connections
-if len(connections) == 0 and len(labels) == 0 :
-    labels.append("Add New")
+#Check if the json file exist
+if not Path(json_path).exists():
+    print("File doesn't exist, creating it for you")
+    Path(json_path).touch()
+
+with open(json_path, 'r') as json_data:
+    try:
+        conn_dict = json.load(json_data)
+        for result in conn_dict.keys():
+            menu_options.append(result)
+    except:
+        conn_dict = {}
+
+if len(menu_options) > 0:
+    menu_options.extend(("Remove Connections", "Add New"))
 else:
-    labels.extend(("Remove connection", "Add New"))
+    menu_options.append("Add New")
 
-#Creates main dictionary
-for i in range(len(connections)):
-    conn_dict[i] = labels[i], connections[i]
-
-#Menus and options to add/remove connections
-choice = TerminalMenu(labels, title="Please select an action:").show()
-if choice == len(labels) - 1:
-    server = input("Please enter server: ")
-    username = input("Please enter username: ")
+choice = TerminalMenu(menu_options, title="Please select an action:").show()
+if choice == len(menu_options) - 1:
     label = input("Please select label: ")
-    subprocess.run(f"echo \"ssh {username}@{server} -p18765\" >> {connections_path}", shell=True)
-    subprocess.run(f"echo \"{label}\" >> {labels_path}", shell=True)
-elif choice == len(labels) - 2:
-    choice2 = TerminalMenu(labels[:-2], title="Please select which connection to remove:").show()
-    subprocess.run(f"sed -i '' '/{conn_dict[choice2][1]}/d' {connections_path}", shell=True)
-    subprocess.run(f"sed -i '' '/{conn_dict[choice2][0]}/d' {labels_path}", shell=True)
+    username = input("Please enter username: ")
+    hostname = input("Please enter hostname: ")
+    conn_dict[label] = f"ssh {username}@{hostname} -p18765"
+    update_data()
+elif choice == len(menu_options) - 2:
+    choice2 = TerminalMenu(menu_options[:-2], title="Please select which connection to remove:").show()
+    del conn_dict[return_key(choice2)]
+    update_data()
 else:
-    print(f"Connecting to \"{conn_dict[choice][0]}\"...")
-    subprocess.run(conn_dict[choice][1], shell=True)
+    subprocess.run(return_value(choice), shell=True)
