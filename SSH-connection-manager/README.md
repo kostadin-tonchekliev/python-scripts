@@ -2,12 +2,13 @@ Stores SSH connections so that you can easily connect to them, allows removing p
 
 ---
 ### Requirements
-You need to install the `simple_term_menu` package :
+You need to install the `simple_term_menu` and `pathlib` package :
 ```
 pip3 install simple_term_menu
+pip3 install pathlib
 ```
-In the same directory as the script create two txt files called `labels.txt` and `connections.txt`, finally update the exact paths to the files so that you can execute the script from any location.
-
+In the beggining of the file update `connections_path` and `labels_path` to the path where you want the files to be stored.
+<br >*Note: Both paths need to end in the respective file, for example connections.txt and etc.*
 ### Example
 
 ```
