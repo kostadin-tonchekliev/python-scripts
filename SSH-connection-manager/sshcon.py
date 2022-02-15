@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import json
+import os
 import subprocess
 from simple_term_menu import TerminalMenu
 from pathlib import Path
@@ -35,19 +36,21 @@ with open(json_path, 'r') as json_data:
         conn_dict = {}
 
 if len(menu_options) > 0:
-    menu_options.extend(("Remove Connections", "Add New"))
+    menu_options.extend(("Remove Connections", "Add New", "Exit"))
 else:
-    menu_options.append("Add New")
+    menu_options.extend(("Add New", "Exit"))
 
 choice = TerminalMenu(menu_options, title="Please select an action:").show()
 if choice == len(menu_options) - 1:
+    exit("Exiting script..")
+elif choice == len(menu_options) - 2:
     label = input("Please select label: ")
     username = input("Please enter username: ")
     hostname = input("Please enter hostname: ")
     conn_dict[label] = f"ssh {username}@{hostname} -p18765"
     update_data()
-elif choice == len(menu_options) - 2:
-    choice2 = TerminalMenu(menu_options[:-2], title="Please select which connection to remove:").show()
+elif choice == len(menu_options) - 3:
+    choice2 = TerminalMenu(menu_options[:-3], title="Please select which connection to remove:").show()
     del conn_dict[return_key(choice2)]
     update_data()
 else:
