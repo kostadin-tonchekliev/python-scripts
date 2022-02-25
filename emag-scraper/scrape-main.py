@@ -7,7 +7,7 @@ from simple_term_menu import TerminalMenu
 from bs4 import BeautifulSoup
 import requests
 
-json_path = '/example/dir'
+json_path = '/Users/kostadintonchekliev/Desktop/scripts/Python/Web-Scraper/'
 
 def emag_check():
     try:
@@ -157,6 +157,7 @@ if __name__ == '__main__':
             main_actions()
     elif in_option == 'none':
         emag_check()
+        json_check()
         read_json()
         xbar_show()
     else:
