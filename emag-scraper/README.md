@@ -12,6 +12,7 @@ pip3 install bs4
 pip3 install requests
 pip3 install json
 pip3 install sys
+pip3 install prettytable
 ```
 
 In the begging of the file update `json_path` to the full desired path where you want to have the main json file stored.
