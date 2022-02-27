@@ -6,6 +6,7 @@ from pathlib import Path
 from simple_term_menu import TerminalMenu
 from bs4 import BeautifulSoup
 import requests
+from prettytable import PrettyTable
 
 json_path = '/Users/kostadintonchekliev/Desktop/scripts/Python/Web-Scraper/'
 
@@ -18,7 +19,7 @@ def emag_check():
 
 
 def json_check():
-    if not Path(f'{json_path}products.json').exists() == True:
+    if not Path(f'{json_path}products.json').exists():
         print("File doesn't exists, created it for you")
         Path(f'{json_path}products.json').touch()
 
@@ -136,6 +137,7 @@ def show_prices_compared():
         elif new_price < products_list[product][1]:
             print(f"{product}: {new_price} \u1401")
 
+
 def xbar_show():
     if len(products_list.keys()) > 0:
         print("View Scrape")
@@ -145,9 +147,30 @@ def xbar_show():
         print("No products")
 
 
+def show_help():
+    table = PrettyTable()
+    table.field_names = ["Option", "Action"]
+    table.add_rows(
+        [
+            ["none", "Xbar Mode - displays data in xbar format"],
+            ["-u", "Full Mode - shows all possible actions"],
+            ["-h", "Help Mode - current help section"],
+            ["-p", "Pretty Mode - shows more and better formatted information"]
+        ]
+    )
+    print(table)
+
+
+def show_pretty_info():
+    table = PrettyTable()
+    table.field_names = ["Label", "Name", "Price"]
+    for entry in products_list:
+        table.add_row([entry, products_list[entry][0], products_list[entry][1]])
+    print(table)
+
+
 if __name__ == '__main__':
     in_option = check_argument()
-
     if in_option == '-u':
         json_check()
         while True:
@@ -155,10 +178,16 @@ if __name__ == '__main__':
             build_menu()
             action = return_action(menu_options, read_menu(menu_options))
             main_actions()
+    elif in_option == '-h':
+        show_help()
+    elif in_option == '-p':
+        json_check()
+        read_json()
+        show_pretty_info()
     elif in_option == 'none':
         emag_check()
         json_check()
         read_json()
         xbar_show()
     else:
-        print("Wrong option selected, currently works only with '-u' and empty")
+        print("Wrong option selected, select -h for help")
