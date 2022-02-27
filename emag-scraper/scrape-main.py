@@ -8,7 +8,9 @@ from bs4 import BeautifulSoup
 import requests
 from prettytable import PrettyTable
 
-json_path = '/Users/kostadintonchekliev/Desktop/scripts/Python/Web-Scraper/'
+json_path = f"{Path(__file__).parent.resolve()}/Web-Scraper/"
+# Remote the below line when you're sure it is working
+# json_path = '/Users/kostadintonchekliev/Desktop/scripts/Python/Web-Scraper/'
 
 def emag_check():
     try:
@@ -19,6 +21,8 @@ def emag_check():
 
 
 def json_check():
+    # Make sure that the dir exists
+    Path(json_path).mkdir(parents=True, exist_ok=True)
     if not Path(f'{json_path}products.json').exists():
         print("File doesn't exists, created it for you")
         Path(f'{json_path}products.json').touch()
