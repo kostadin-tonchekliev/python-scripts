@@ -6,13 +6,14 @@ Web scraper designed to work with emag.bg. Current features: <br>
 ### Requirements
 You need to have the following python packages installed:
 ```commandline
-pip3 install simple_term_menu
-pip3 install pathlib
-pip3 install bs4
-pip3 install requests
-pip3 install json
-pip3 install sys
-pip3 install prettytable
+simple_term_menu
+pathlib
+bs4
+requests
+prettytable
+```
+```
+pip3 install -r requirements.txt
 ```
 
 In the begging of the file update `json_path` to the full desired path where you want to have the main json file stored.
