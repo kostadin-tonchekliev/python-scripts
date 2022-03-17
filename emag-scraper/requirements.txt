@@ -1,0 +1,5 @@
+simple_term_menu=1.4.1
+pathlib=1.0.1
+beautifulsoup4=4.10.0
+requests=2.27.1
+prettytable=3.2.0
