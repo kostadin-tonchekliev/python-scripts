@@ -78,3 +78,7 @@ if __name__ == '__main__':
             customModule.main()
         case 'test':
             customModule.test()
+        case 'partOne':
+            customModule.partOne()
+        case 'partTwo':
+            customModule.partTwo()

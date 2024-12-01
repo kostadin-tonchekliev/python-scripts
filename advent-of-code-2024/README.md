@@ -33,4 +33,4 @@ python3 main.py 2 test
 ### Configuration:
 - Days should be added into the `days` folder, each day needs to be separated in a different folder
 - Days should all include a `main.py` file
-- The `main.py` file needs to include a `main()` function which will be run by default, additional functions currently supported: `test`. Any additional functions need to be defined in the `main.py` file as well (in the switch case on line **76**)
+- The `main.py` file needs to include a `main()` function which will be run by default, additional functions currently supported: `test`, `partOne`, `partTwo`. Any additional functions need to be defined in the `main.py` file as well (in the switch case on line **76**)
